@@ -11,15 +11,15 @@ class MoviesController < ApplicationController
     @all_ratings = Movie.get_rating_options
 
     if params[:ratings]
-      @ratings = params[:ratings].keys
+      @ratings_to_show = params[:ratings].keys
       session[:filtered_rating] = @ratings
     elsif session[:filtered_rating]
-      @ratings = session[:filtered_rating]
+      @ratings_to_show = session[:filtered_rating]
     else
-      @ratings = @all_ratings
+      @ratings_to_show = @all_ratings
     end
 
-    @movies.where!(rating: @ratings)
+    @movies.where!(rating: @ratings_to_show)
   end
 
   def new
