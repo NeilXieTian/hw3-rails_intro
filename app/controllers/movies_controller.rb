@@ -9,33 +9,17 @@ class MoviesController < ApplicationController
   def index
     @movies = Movie.all
     @all_ratings = Movie.get_rating_options
-    
+
     if params[:ratings]
       @ratings = params[:ratings].keys
       session[:filtered_rating] = @ratings
     elsif session[:filtered_rating]
-      query = Hash.new
-      session[:filtered_rating].each do |rating|
-        query['ratings['+ rating + ']'] = 1
-      end
-      query['sort'] = params[:sort] if params[:sort]
-      session[:filtered_rating] = nil
-      flash.keep
-      redirect_to movies_path(query)
+      @ratings = session[:filtered_rating]
     else
       @ratings = @all_ratings
     end
 
     @movies.where!(rating: @ratings)
-
-    case params[:sort]
-    when 'title'
-      @movies.order!('title asc')
-      @title_class = "hilite"
-    when 'release_date'
-      @movies.order!('release_date asc')
-      @release_date_class = "hilite"
-    end
   end
 
   def new
