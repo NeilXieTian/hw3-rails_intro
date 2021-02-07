@@ -1,5 +1,5 @@
 class Movie < ActiveRecord::Base
-  def self.with_ratings(ratings_list)
+  def self.get_rating_options
     pluck('DISTINCT rating').sort!
   end
 end
