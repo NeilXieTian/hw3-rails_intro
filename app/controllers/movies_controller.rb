@@ -20,6 +20,16 @@ class MoviesController < ApplicationController
     end
 
     @movies.where!(rating: @ratings_to_show)
+    
+    case params[:sort]
+    when 'title'
+      @movies.order!('title asc')
+      @title_class = "hilite"
+    when 'release_date'
+      @movies.order!('release_date asc')
+      @release_date_class = "hilite"
+    end
+    
   end
 
   def new
